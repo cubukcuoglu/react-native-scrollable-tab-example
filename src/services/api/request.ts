@@ -13,36 +13,36 @@ class request {
         } catch (error) {
             resolve(handleError(error as AxiosError));
         }
-    })
+    });
 
-    static async post(url = "", body = {}, params = {}, headers = {}) {
+    static post = <T>(url = "", body = {}, params = {}, headers = {}): Promise<IRequestReponse<T>> => new Promise(async (resolve) => {
         try {
-            return await axios.post(url, body, { params, headers });
+            resolve(axios.post(url, body, { params, headers }));
         } catch (error) {
-            return handleError(error as AxiosError);
+            resolve(handleError(error as AxiosError));
         }
-    }
+    });
 
-    static async put(url = "", body = {}, headers = {}) {
+    static put = <T>(url = "", body = {}, headers = {}): Promise<IRequestReponse<T>> => new Promise(async (resolve) => {
         if (Object.keys(body).length !== 0) {
             let params = this.setParams({ params: body });
             url = url + "?" + params;
         }
 
         try {
-            return await axios.put(url, body, { headers });
+            resolve(await axios.put(url, body, { headers }));
         } catch (error) {
-            return handleError(error as AxiosError);
+            resolve(handleError(error as AxiosError));
         }
-    }
+    });
 
-    static async delete(url = "", data = {}, headers = {}) {
+    static delete = <T>(url = "", data = {}, headers = {}): Promise<IRequestReponse<T>> => new Promise(async (resolve) => {
         try {
-            return await axios.delete(url, { data, headers });
+            resolve(await axios.delete(url, { data, headers }));
         } catch (error) {
-            return handleError(error as AxiosError);
+            resolve(handleError(error as AxiosError));
         }
-    }
+    });
 
     static setParams({ url, params }: any) {
         return Object.entries(params).map(e => e.join("=")).join("&");
